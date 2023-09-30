@@ -1,0 +1,42 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container-fluid">
+
+    <x-alert_block></x-alert_block>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Edit {{ ucfirst('Keliling Proses') }}</h5>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('kactivities.update', $kactivity->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+                @foreach ($kspots as $kspot)
+                    @include("components.input7",[
+                        "label"     => $kspot->name,
+                        "name"      => $kspot->name,
+                        "type"      => "number",
+                        "value"     => $kactivity->{$kspot->name},
+                        "modifier"  => "",
+                    ])
+                @endforeach
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Save
+                        @include('components.icon', ['icon' => 'save'])
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer">
+
+        </div>
+    </div>
+</div>
+
+@endsection
+

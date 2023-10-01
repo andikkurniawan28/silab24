@@ -33,9 +33,9 @@
                 @foreach($stations as $station)
                     <a class="collapse-item" href="{{ route('station_result', $station->id) }}">{{ $station->name }}</a>
                 @endforeach
+                <a class="collapse-item" href="{{ route("keliling_result") }}">Keliling Proses</a>
                 <a class="collapse-item" href="{{ route("material_balance") }}">Material Balance</a>
                 <a class="collapse-item" href="{{ route("timbangan_in_proses") }}">Timbangan In Proses</a>
-                <a class="collapse-item" href="{{ route("keliling_result") }}">Keliling Proses</a>
                 <a class="collapse-item" href="{{ route("masakan_turun") }}">Masakan Turun</a>
             </div>
         </div>
@@ -78,7 +78,7 @@
                 <a class="collapse-item" href="{{ route('kactivities.index') }}">Keliling Proses</a>
                 <a class="collapse-item" href="{{ route('tactivities.index') }}">Taksasi</a>
                 <a class="collapse-item" href="{{ route('chemicalcheckings.index') }}">Penggunaan BPP</a>
-                <a class="collapse-item" href="{{ route('consumableusages.index') }}">Penggunaan Bahan</a>
+                <a class="collapse-item" href="{{ route('consumableusages.index') }}">Bahan-Bahan Lab</a>
                 @endif
 
                 @if(Auth()->user()->role_id <= 6)
@@ -108,13 +108,13 @@
                 <a class="collapse-item" href="{{ route('posbrixes.index') }}">Posbrix</a>
                 <a class="collapse-item" href="{{ route('core_samples.index') }}">ARI Core Sample</a>
                 <a class="collapse-item" href="{{ route('aris.index') }}">ARI Gilingan Mini</a>
-                {{-- <a class="collapse-item" href="{{ route('scores.index') }}">Penilaian MBS</a> --}}
+                <a class="collapse-item" href="{{ route('scores.index') }}">Penilaian MBS</a>
             </div>
         </div>
     </li>
     @endif
 
-    {{-- @if(Auth()->user()->role_id <= 7)
+    @if(Auth()->user()->role_id <= 7)
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
             <i class="fas fa-fw fa-file-signature"></i>
@@ -123,16 +123,12 @@
         <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Menu :</h6>
-                    <a class="collapse-item" href="{{ route('report') }}">Cetak Laporan</a>
+                    <a class="collapse-item" href="{{ route('report') }}" target="_blank">Cetak Laporan</a>
                     <a class="collapse-item" href="{{ route('cetak_laporan_mandor') }}">Laporan Mandor</a>
-                    @if(Auth()->user()->role_id <= 5)
-                    <a class="collapse-item" href="{{ route('adjust_ari') }}">Adjust ARI per Tanggal</a>
-                    @endif
-                    <a class="collapse-item" href="{{ route('coas.index') }}">Certificate of Analysis</a>
             </div>
         </div>
     </li>
-    @endif --}}
+    @endif
 
     {{-- @if(Auth()->user()->role_id <= 8)
     <li class="nav-item">

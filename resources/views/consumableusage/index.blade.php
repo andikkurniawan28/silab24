@@ -7,7 +7,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst("Penggunaan Bahan") }}</h5>
+            <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst("Penggunaan  Bahan-Bahan Lab") }}</h5>
         </div>
         <div class="card-body">
             <div class="btn-group" role="group" aria-label="Basic example">
@@ -67,7 +67,7 @@
     <div class="modal-dialog" consumableusage="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createLabel">Tambah {{ ucfirst("Penggunaan Bahan") }}</h5>
+                <h5 class="modal-title" id="createLabel">Tambah {{ ucfirst("Penggunaan  Bahan-Bahan Lab") }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -103,7 +103,7 @@
     <div class="modal-dialog" consumableusage="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="delete{{ $consumableusage->id }}Label">Hapus {{ ucfirst("Penggunaan Bahan") }}</h5>
+                <h5 class="modal-title" id="delete{{ $consumableusage->id }}Label">Hapus {{ ucfirst("Penggunaan  Bahan-Bahan Lab") }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">

@@ -870,8 +870,8 @@ class DatabaseSeeder extends Seeder
         ];
 
         $consumables = [
-            ['name' => 'Form_A'],
-            ['name' => 'Form_B'],
+            ['name' => 'Form_A', "unit" => "Jerigen"],
+            ['name' => 'Form_B', "unit" => "Jerigen"],
         ];
 
         $kspots = [

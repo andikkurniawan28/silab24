@@ -57,14 +57,14 @@
             @endif
 
             @if(Auth()->user()->role_id <= 3)
+            <a class="dropdown-item" href="{{ route("factors.index") }}">
+                <i class="fas fa-percent fa-sm fa-fw mr-2 text-gray-400"></i> Faktor
+            </a>
             <a class="dropdown-item" href="{{ route("stations.index") }}">
                 <i class="fas fa-filter fa-sm fa-fw mr-2 text-gray-400"></i> Stasiun
             </a>
             <a class="dropdown-item" href="{{ route("indicators.index") }}">
                 <i class="fas fa-asterisk fa-sm fa-fw mr-2 text-gray-400"></i> Indikator
-            </a>
-            <a class="dropdown-item" href="{{ route("factors.index") }}">
-                <i class="fas fa-percent fa-sm fa-fw mr-2 text-gray-400"></i> Faktor
             </a>
             @endif
 
@@ -88,7 +88,7 @@
                 <i class="fas fa-flask fa-sm fa-fw mr-2 text-gray-400"></i> Bahan Pembantu Proses
             </a>
             <a class="dropdown-item" href="{{ route("consumables.index") }}">
-                <i class="fas fa-box fa-sm fa-fw mr-2 text-gray-400"></i> Bahan Analisa
+                <i class="fas fa-box fa-sm fa-fw mr-2 text-gray-400"></i> Bahan-Bahan Lab
             </a>
             @endif
 

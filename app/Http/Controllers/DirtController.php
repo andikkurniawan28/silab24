@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Station;
 use App\Models\Dirt;
+use App\Models\Station;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DirtController extends Controller
 {
@@ -17,7 +18,7 @@ class DirtController extends Controller
     {
         $stations = Station::all();
         $dirts = Dirt::all();
-        return view('dirt.index', compact('stations', 'dirts'));
+        return view("dirt.index", compact("stations", "dirts"));
     }
 
     /**
@@ -39,11 +40,12 @@ class DirtController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:dirts',
-            'value' => 'required',
+            "name" => "required|unique:dirts",
+            "value" => "required",
         ]);
         Dirt::create($request->all());
-        return redirect()->back()->with('success', 'Kotoran berhasil disimpan');
+        DB::statement("ALTER TABLE `scores` ADD `$request->name` DOUBLE(8,2)");
+        return redirect()->back()->with("success", "Kotoran berhasil disimpan");
     }
 
     /**
@@ -78,10 +80,10 @@ class DirtController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'value' => 'required',
+            "value" => "required",
         ]);
-        Dirt::where('id', $id)->update($request->except(["_token", "_method"]));
-        return redirect()->back()->with('success', 'Kotoran berhasil dirubah');
+        Dirt::where("id", $id)->update($request->except(["_token", "_method"]));
+        return redirect()->back()->with("success", "Kotoran berhasil dirubah");
     }
 
     /**
@@ -93,6 +95,7 @@ class DirtController extends Controller
     public function destroy(Request $request, $id)
     {
         Dirt::whereId($id)->delete();
-        return redirect()->back()->with('success', 'Kotoran berhasil dihapus');
+        DB::statement("ALTER TABLE `scores` DROP COLUMN `$request->name`");
+        return redirect()->back()->with("success", "Kotoran berhasil dihapus");
     }
 }

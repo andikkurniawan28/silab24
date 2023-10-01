@@ -45,7 +45,7 @@ class ConsumableController extends Controller
     {
         Consumable::create($request->all());
         DB::statement("ALTER TABLE `consumable_usages` ADD `$request->name` DOUBLE(8,2)");
-        return redirect()->back()->with("success", "Bahan Analisa berhasil disimpan");
+        return redirect()->back()->with("success", "Bahan-Bahan Lab berhasil disimpan");
     }
 
     /**
@@ -80,7 +80,7 @@ class ConsumableController extends Controller
     public function update(Request $request, $id)
     {
         Consumable::where("id", $id)->update($request->except(["_token", "_method"]));
-        return redirect()->back()->with("success", "Bahan Analisa berhasil dirubah");
+        return redirect()->back()->with("success", "Bahan-Bahan Lab berhasil dirubah");
     }
 
     /**
@@ -93,6 +93,6 @@ class ConsumableController extends Controller
     {
         Consumable::whereId($id)->delete();
         DB::statement("ALTER TABLE `consumable_usages` DROP COLUMN `$request->name`");
-        return redirect()->back()->with("success", "Bahan Analisa berhasil dihapus");
+        return redirect()->back()->with("success", "Bahan-Bahan Lab berhasil dihapus");
     }
 }

@@ -15,7 +15,7 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('posbrix_id')->unique()->constrained();
+            $table->foreignId('posbrix_id')->unique()->constrained()->onDelete("cascade");
             $table->foreignId('user_id')->constrained();
             $table->integer('cane_table');
             $table->float('Daduk')->nullable();
@@ -27,8 +27,6 @@ class CreateScoresTable extends Migration
             $table->float('Lelesan')->nullable();
             $table->float('Terbakar')->nullable();
             $table->float('value');
-            $table->string('image1')->nullable();
-            $table->string('image2')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

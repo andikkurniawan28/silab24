@@ -1,39 +1,33 @@
-@extends('layouts.app')
+@extends("layouts.app")
 
-@section('content')
+@section("content")
 <div class="container-fluid">
 
-    @if($message = Session::get('error'))
-        @include('components.alert', ['message'=>$message, 'color'=>'danger'])
-    @elseif($message = Session::get('success'))
-        @include('components.alert', ['message'=>$message, 'color'=>'success'])
-    @endif
-
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <p>Error :</p>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-    </div>
-    @endif
+    <x-alert_block></x-alert_block>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst('penilaian MBS') }}</h5>
+            <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst("Penilaian MBS") }}</h5>
         </div>
         <div class="card-body">
+            @for($i=1; $i<=5; $i++)
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#create{{ $i }}">
+                @include("components.icon", ["icon" => "plus "])
+                Meja Tebu {{ $i }}
+            </button>
+            @endfor
             <div class="table-responsive">
+                <br>
                 <table class="table table-bordered text-dark table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>ID</td>
                             <th>Timestamp</td>
-                            {{-- <td>Nopol</td> --}}
-                            <th>Barcode</td>
-                            <th><a href="{{ route('dirts.index') }}" target="_blank">Kotoran</a></td>
+                            <th>SPTA</td>
+                            <th>Antrian</td>
+                            <th>Register</td>
+                            <th>Meja</td>
+                            <th>Kotoran</th>
                             <th>Score</td>
                             <th>User</td>
                             <th>Action</td>
@@ -44,32 +38,28 @@
                         <tr>
                             <td>{{ $score->id }}</td>
                             <td>{{ $score->created_at }}</td>
-                            {{-- <td>{{ $score->rit->nopol }}</td> --}}
-                            <td>{{ $score->rit->barcode_antrian }}</td>
+                            <td>{{ $score->posbrix->spta }}</td>
+                            <td>{{ $score->posbrix->barcode_antrian }}</td>
+                            <td>{{ $score->posbrix->register }}</td>
+                            <td>{{ $score->cane_table }}</td>
                             <td>
-                                <ul>
-                                @forelse($score->scoring_value as $scoring_value)
-                                    <li>{{ $scoring_value->dirt->name }} : {{ $scoring_value->value }}%</li>
-                                @empty
-
-                                @endforelse
-                                </ul>
+                                @foreach ($dirts as $dirt)
+                                @if($score->{$dirt->name} != NULL)
+                                <li>{{ $dirt->name }} : {{ $score->{$dirt->name} }}%</li>
+                                @endif
+                                @endforeach
                             </td>
                             <td>{{ $score->value }}</td>
                             <td>{{ $score->user->name }}</td>
                             <td>
-                                {{-- <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#edit{{ $score->id }}">
-                                    @include('components.icon', ['icon' => 'edit '])
+                                <a href="{{ route("scores.edit", $score->id) }}" type="button" class="btn btn-outline-success btn-sm">
+                                    @include("components.icon", ["icon" => "edit "])
                                     Edit
-                                </button> --}}
+                                </a>
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete{{ $score->id }}">
-                                    @include('components.icon', ['icon' => 'trash '])
+                                    @include("components.icon", ["icon" => "trash "])
                                     Hapus
                                 </button>
-                                <a target="_blank" href="{{ route('skmt', $score->id) }}" class="btn btn-outline-info btn-sm">
-                                    @include('components.icon', ['icon' => 'file '])
-                                    SKMT
-                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -78,12 +68,6 @@
             </div>
         </div>
         <div class="card-footer">
-            @for($i=1; $i<=5; $i++)
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#create{{ $i }}">
-                @include('components.icon', ['icon' => 'plus '])
-                Meja Tebu {{ $i }}
-            </button>
-            @endfor
         </div>
     </div>
 </div>
@@ -93,40 +77,45 @@
     <div class="modal-dialog modal-xl" score="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createLabel">{{ ucfirst('penilaian MBS') }} Meja {{ $i }}</h5>
+                <h5 class="modal-title" id="createLabel">{{ ucfirst("penilaian MBS") }} Meja Tebu {{ $i }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
 
-                <form method="POST" action="{{ route('scores.store') }}" class="text-dark" enctype="multipart/form-data">
-                @csrf
-                @method('POST')
+                <form method="POST" action="{{ route("scores.store") }}">
+                @csrf @method("POST")
 
-                <div class="form-group row">
-                    <label for="rit_id" class="col-sm-3 col-form-label">Identitas</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="rit_id">
-                            @foreach ($rits as $rit)
-                            <option value="{{ $rit->id }}">
-                                Nopol : {{ $rit->nopol }} -- Antrian :  {{ $rit->barcode_antrian }} -- Brix : {{ $rit->posbrix->brix }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                @include("components.input", [
+                    "label"     => "Barcode Antrian",
+                    "name"      => "data",
+                    "type"      => "text",
+                    "value"     => "24",
+                    "modifier"  => "required",
+                ])
 
                 @foreach($dirts as $dirt)
+                    @include("components.input", [
+                        "label"     => $dirt->name,
+                        "name"      => $dirt->name,
+                        "type"      => "number",
+                        "value"     => "",
+                        "modifier"  => "",
+                    ])
+                @endforeach
+
+                {{-- @foreach($dirts as $dirt)
                 <div class="form-group row">
                     <label for="{{ $dirt->id }}" class="col-sm-3 col-form-label">{{ $dirt->name }}</label>
                     <div class="col-sm-9">
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             @switch($dirt->id)
+
                                 @case(1)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -136,9 +125,9 @@
                                 @case(2)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -148,9 +137,9 @@
                                 @case(3)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -160,9 +149,9 @@
                                 @case(4)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -172,9 +161,9 @@
                                 @case(5)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -184,9 +173,9 @@
                                 @case(6)
                                     @for($j=0; $j<=20; $j+=4)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -196,9 +185,9 @@
                                 @case(7)
                                     @for($j=0; $j<=100; $j+=20)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -208,9 +197,9 @@
                                 @case(8)
                                     @for($j=0; $j<=100; $j+=20)
                                         <label class="btn btn-outline-primary btn-toggle  btn-sm">
-                                            <input type="radio" name="{{ $dirt->id }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
+                                            <input type="radio" name="{{ $dirt->name }}" id="{{ $dirt->id }}" autocomplete="off" value="{{ $j }}"
                                             @if($j == 0)
-                                            {{ 'checked' }}
+                                            {{ "checked" }}
                                             @endif
                                             > {{ $j }}%
                                         </label>
@@ -223,7 +212,7 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @endforeach --}}
 
                 <input type="hidden" name="cane_table" value="{{ $i }}">
                 <input type="hidden" name="user_id" value="{{ Auth()->user()->id }}">
@@ -231,7 +220,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save
-                    @include('components.icon', ['icon' => 'save'])
+                    @include("components.icon", ["icon" => "save"])
                 </button>
                 </form>
             </div>
@@ -241,65 +230,23 @@
 @endfor
 
 @foreach($scores as $score)
-<div class="modal fade" id="edit{{ $score->id }}" tabindex="-1" score="dialog" aria-labelledby="edit{{ $score->id }}Label" aria-hidden="true">
-    <div class="modal-dialog" score="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="edit{{ $score->id }}Label">Edit {{ ucfirst('penilaian MBS') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-
-                <form method="POST" action="{{ route('scores.update', $score->id) }}" class="text-dark">
-                @csrf
-                @method('PUT')
-
-                {{-- @include('components.input',[
-                    'label' => 'Antrian',
-                    'name' => 'rit_id',
-                    'type' => 'text',
-                    'value' => $score->rit->barcode_antrian,
-                    'modifier' => 'readonly',
-                ]) --}}
-
-                @include('components.input',[
-                    'label' => 'Score',
-                    'name' => 'value',
-                    'type' => 'text',
-                    'value' => $score->value,
-                    'modifier' => 'required',
-                ])
-
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save
-                    @include('components.icon', ['icon' => 'edit'])
-                </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
-@foreach($scores as $score)
 <div class="modal fade" id="delete{{ $score->id }}" tabindex="-1" score="dialog" aria-labelledby="delete{{ $score->id }}Label" aria-hidden="true">
     <div class="modal-dialog" score="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="delete{{ $score->id }}Label">Hapus {{ ucfirst('penilaian MBS') }}</h5>
+                <h5 class="modal-title" id="delete{{ $score->id }}Label">Hapus {{ ucfirst("penilaian MBS") }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-            <form method="POST" action="{{ route('scores.destroy', $score->id) }}" class="text-dark">
+            <form method="POST" action="{{ route("scores.destroy", $score->id) }}" class="text-dark">
                 @csrf
-                @method('DELETE')
+                @method("DELETE")
                 <p>Apakah Anda yakin ?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
                 <button type="submit" class="btn btn-primary">Yes
-                    @include('components.icon', ['icon' => 'trash'])
+                    @include("components.icon", ["icon" => "trash"])
                 </button>
             </form>
             </div>

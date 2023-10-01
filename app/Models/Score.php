@@ -11,16 +11,12 @@ class Score extends Model
 
     protected $guarded = [];
 
-    public function rit(){
-        return $this->belongsTo(Rit::class);
+    public function posbrix(){
+        return $this->belongsTo(Posbrix::class);
     }
 
     public function user(){
         return $this->belongsTo(User::class);
-    }
-
-    public function scoring_value(){
-        return $this->hasMany(ScoringValue::class);
     }
 
 }

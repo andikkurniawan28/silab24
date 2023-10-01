@@ -8,10 +8,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KspotController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TspotController;
 use App\Http\Controllers\FactorController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\MethodController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\InputHKController;
 use App\Http\Controllers\KawalanController;
@@ -52,6 +54,7 @@ use App\Http\Controllers\InputAnalisaKetelController;
 use App\Http\Controllers\TimbanganInProsesController;
 use App\Http\Controllers\AnalisaPendahuluanController;
 use App\Http\Controllers\AnalysisUnverifiedController;
+use App\Http\Controllers\CetakLaporanMandorController;
 use App\Http\Controllers\CoreSampleSamplingController;
 use App\Http\Controllers\PosbrixPerCategoryController;
 use App\Http\Controllers\CetakBarcodeByCategoryController;
@@ -185,6 +188,7 @@ Route::resource("analisa_pendahuluans", AnalisaPendahuluanController::class)->mi
 Route::resource("posbrixes", PosbrixController::class)->middleware(["auth", "operator_qc"]);
 Route::resource("core_samples", CoreSampleController::class)->middleware(["auth", "operator_qc"]);
 Route::resource("aris", AriController::class)->middleware(["auth", "operator_qc"]);
+Route::resource("scores", ScoreController::class)->middleware(["auth", "operator_qc"]);
 
 // Other
 Route::get("/", HomeController::class)->name("home")->middleware(["auth"]);
@@ -212,14 +216,12 @@ Route::get("keliling_result", KelilingResultController::class)->name("keliling_r
 Route::get("timbangan_in_proses", TimbanganInProsesController::class)->name("timbangan_in_proses")->middleware(["auth"]);
 Route::get("masakan_turun", MasakanTurunController::class)->name("masakan_turun")->middleware(["auth"]);
 
-// Route::resource("scores", ScoreController::class)->middleware(["auth", "operator_qc"]);
 // Route::resource("scoring_values", ScoringValueController::class)->middleware(["auth", "operator_qc"]);
 // Route::resource("product50s", Product50Controller::class)->middleware(["auth", "operator_qc"]);
 
-// Route::get("report", [ ReportController::class, "index" ])->name("report")->middleware(["auth", "mandor"]);
-// Route::get("cetak_laporan_mandor", [ CetakLaporanMandorController::class, "index" ])->name("cetak_laporan_mandor")->middleware(["auth", "mandor"]);
-// Route::post("report_process", [ ReportController::class, "process" ])->name("report_process")->middleware(["auth", "mandor"]);
-// Route::post("cetak_laporan_mandor_process", [ CetakLaporanMandorController::class, "process" ])->name("cetak_laporan_mandor_process")->middleware(["auth", "mandor"]);
+Route::get("report", [ ReportController::class, "index" ])->name("report")->middleware(["auth", "mandor"]);
+Route::get("cetak_laporan_mandor", [ CetakLaporanMandorController::class, "index" ])->name("cetak_laporan_mandor")->middleware(["auth", "mandor"]);
+Route::post("cetak_laporan_mandor_process", [ CetakLaporanMandorController::class, "process" ])->name("cetak_laporan_mandor_process")->middleware(["auth", "mandor"]);
 
 // Route::get("activities", ActivityController::class)->name("activities")->middleware(["auth", "kabag"]);
 // Route::get("saccharomat", [SaccharomatController::class, "index"])->name("saccharomat")->middleware(["auth", "operator_qc"]);

@@ -25,7 +25,6 @@ class SampleResultController extends Controller
             ->where("material_id", $material_id)
             ->where("is_verified", 1)
             ->orderBy("id", "desc")
-            ->limit(5)
             ->get();
         $methods = Method::where('material_id', $material_id)->get();
         return view('sample_result.index', compact('material', 'samples', 'methods', 'stations', 'material_id'));

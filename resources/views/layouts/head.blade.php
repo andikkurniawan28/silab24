@@ -6,7 +6,7 @@
     <meta name="author" content="Andik Kurniawan">
 
     <title>{{ env('APP_NAME') }}</title>
-	<link rel="icon" type="image/png" href="/Silab-v3/public/admin_template/img/QC.png"/>
+	<link rel="icon" type="image/png" href="/admin_template/img/QC.png"/>
     <link href="/admin_template/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="/admin_template/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/admin_template/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">

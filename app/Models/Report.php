@@ -30,6 +30,7 @@ class Report extends Model
                     round(avg(`%Pol`),2)        `%Pol`,
                     round(avg(`Pol`),2)         `Pol`,
                     round(avg(`HK`),2)          `HK`,
+                    round(avg(`%R`),2)          `%R`,
                     round(avg(`IU`),2)          `IU`,
                     round(avg(`%Air`),2)        `%Air`,
                     round(avg(`%Zk`),2)         `%Zk`,
@@ -197,6 +198,41 @@ class Report extends Model
         return $data;
     }
 
-    // count(IF(`is_accepted` = 1, `id`, NULL))                    `diterima`,
-    // count(IF(`is_accepted` = 0, `id`, NULL))                    `ditolak`
+    public static function core_sample(){
+        $data = CoreSample::whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->select(DB::raw('
+                    count(`id`)         `jumlah`,
+                    avg(`pbrix`)        `pbrix`,
+                    avg(`ppol`)         `ppol`,
+                    avg(`rendemen`)     `rendemen`
+            '))->first();
+        return $data;
+    }
+
+    public static function ari(){
+        $data = Ari::whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->select(DB::raw('
+                    count(`id`)         `jumlah`,
+                    avg(`pbrix`)        `pbrix`,
+                    avg(`ppol`)         `ppol`,
+                    avg(`rendemen`)     `rendemen`
+            '))->first();
+        return $data;
+    }
+
+    public static function score(){
+        $data = Score::whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->select(DB::raw('
+                    count(`id`)             `jumlah`,
+                    avg(`Daduk`)            `Daduk`,
+                    avg(`Akar`)             `Akar`,
+                    avg(`Tali_pucuk`)       `Tali_pucuk`,
+                    avg(`Pucuk`)            `Pucuk`,
+                    avg(`Sogolan`)          `Sogolan`,
+                    avg(`Tebu_muda`)        `Tebu_muda`,
+                    avg(`Lelesan`)          `Lelesan`,
+                    avg(`Terbakar`)         `Terbakar`
+            '))->first();
+        return $data;
+    }
 }

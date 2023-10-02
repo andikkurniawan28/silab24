@@ -1138,7 +1138,7 @@ class DatabaseSeeder extends Seeder
 
         for($i=0; $i<1000; $i++){
             $analyses[$i]["user_id"] = 1;
-            $analyses[$i]["material_id"] = rand(1, 50);
+            $analyses[$i]["material_id"] = rand(1, 91);
             $analyses[$i]["is_verified"] = 1;
             $analyses[$i]["%Brix"] = rand(1, 100);
             $analyses[$i]["%Pol"] = rand(1, 100);

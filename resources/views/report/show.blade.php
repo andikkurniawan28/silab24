@@ -216,7 +216,6 @@
                         <table width="100%" class="table table-dark table-striped table-sm table-bordered table-hover text-xs">
                             <thead>
                                 <tr>
-                                    <th>Kategori</th>
                                     <th>%Brix</th>
                                     <th>%Pol</th>
                                     <th>%Rendemen</th>
@@ -224,6 +223,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>{{ $data["core_sample"]["pbrix"] }}</td>
+                                    <td>{{ $data["core_sample"]["ppol"] }}</td>
+                                    <td>{{ $data["core_sample"]["rendemen"] }}</td>
+                                    <td>{{ $data["core_sample"]["jumlah"] }}</td>
+                                </tr>
                             </tbody>
                         </table>
 
@@ -233,7 +238,6 @@
                         <table width="100%" class="table table-dark table-striped table-sm table-bordered table-hover text-xs">
                             <thead>
                                 <tr>
-                                    <th>Kategori</th>
                                     <th>%Brix</th>
                                     <th>%Pol</th>
                                     <th>%Rendemen</th>
@@ -241,6 +245,34 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>{{ $data["ari"]["pbrix"] }}</td>
+                                    <td>{{ $data["ari"]["ppol"] }}</td>
+                                    <td>{{ $data["ari"]["rendemen"] }}</td>
+                                    <td>{{ $data["ari"]["jumlah"] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <br>
+
+                        <h3>Penilaian MBS</h3>
+                        <table width="100%" class="table table-dark table-striped table-sm table-bordered table-hover text-xs">
+                            <thead>
+                                <tr>
+                                    @foreach ($dirts as $dirt)
+                                    <th>{{ $dirt->name }}</th>
+                                    @endforeach
+                                    <th>Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach ($dirts as $dirt)
+                                    <td>{{ $data["score"][$dirt->name] }}</td>
+                                    @endforeach
+                                    <td>{{ $data["score"]["jumlah"] }}</td>
+                                </tr>
                             </tbody>
                         </table>
 

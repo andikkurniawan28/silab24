@@ -17,7 +17,7 @@
             <h5 class="m-0 font-weight-bold text-primary">Verifikasi Mandor</h5>
         </div>
         <div class="card-body">
-            <form action={{ route("analysis_unverified.process") }} method="POST">
+            <form action={{ route("verifikasi_mandor.process") }} method="POST">
             @csrf
             <div class="btn-group-toggle" data-toggle="buttons">
                 <button type="submit" class="btn btn-outline-primary btn-sm text-right">
@@ -38,9 +38,7 @@
                             <th>ID</td>
                             <th>Timestamp</td>
                             <th>Material</td>
-                            @foreach ($indicators as $indicator)
-                            <th>{{ $indicator->name }}</th>
-                            @endforeach
+                            <th>Analisa</th>
                             <th>User</td>
                             <th>Check</td>
                         </tr>
@@ -51,9 +49,13 @@
                             <td>{{ $analysis->id }}</td>
                             <td>{{ $analysis->created_at }}</td>
                             <td>{{ $analysis->material->name }}</td>
-                            @foreach ($indicators as $indicator)
-                            <td>{{ $analysis->{$indicator->name} }}</td>
-                            @endforeach
+                            <td>
+                                @foreach ($indicators as $indicator)
+                                @if($analysis->{$indicator->name} != NULL)
+                                <li>{{ $indicator->name }} : {{ $analysis->{$indicator->name} }}</li>
+                                @endif
+                                @endforeach
+                            </td>
                             <td>{{ $analysis->user->name }}</td>
                             <td><input type="checkbox" name="id[]" class="checkbox" value="{{ $analysis->id }}" /></td>
                         </tr>

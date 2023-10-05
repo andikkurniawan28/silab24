@@ -22,6 +22,11 @@ class CreateAnalysesTable extends Migration
             $table->integer('reef')->nullable();
             $table->time('start')->nullable();
             $table->time('finish')->nullable();
+            $table->float('%Brix_riil')->nullable();
+            $table->float('%Pol_riil')->nullable();
+            $table->float('Pol_riil')->nullable();
+            $table->float('HK_riil')->nullable();
+            $table->float('%R_riil')->nullable();
             $table->float('%Brix')->nullable();
             $table->float('%Pol')->nullable();
             $table->float('Pol')->nullable();

@@ -10,8 +10,6 @@
             <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst("analisa") }}</h5>
         </div>
         <div class="card-body">
-            <form action={{ route("verifikasi_mandor") }} method="POST">
-            @csrf
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-outline-primary btn-sm text-right" data-toggle="modal" data-target="#create">
                     @include("components.icon", ["icon" => "plus "])
@@ -23,15 +21,6 @@
                 <button type="button" class="btn btn-outline-dark btn-sm text-right" data-toggle="modal" data-target="#createPolBlotong">Input Pol Blotong</button>
                 <button type="button" class="btn btn-outline-danger btn-sm text-right" data-toggle="modal" data-target="#createAnalisaUmum">Input Analisa Umum</button>
                 <button type="button" class="btn btn-outline-warning btn-sm text-right text-dark" data-toggle="modal" data-target="#createAnalisaKetel">Input Analisa Ketel</button>
-                <button type="submit" class="btn btn-outline-primary btn-sm text-right">
-                    @include('components.icon', ['icon' => 'check '])
-                    Setuju
-                </button>
-                <label class="btn btn-outline-secondary btn-sm text-right">
-                    <input type="checkbox" id="select_all">
-                    @include('components.icon', ['icon' => 'list '])
-                    Pilih Semua
-                </label>
             </div>
             <div class="table-responsive">
                 <br>
@@ -43,7 +32,6 @@
                             <th>Material</td>
                             <th>Analisa</td>
                             <th>User</td>
-                            <th>Status</td>
                             <th>Action</td>
                         </tr>
                     </thead>
@@ -62,27 +50,21 @@
                             </td>
                             <td>{{ $analysis->user->name }}</td>
                             <td>
-                                @if($analysis->is_verified == 0)
-                                    {{ "Perlu persetujuan" }}
-                                    <input type="checkbox" name="id[]" class="checkbox" value="{{ $analysis->id }}" />
-                                @else
-                                    {{ "Sudah disetujui" }}
-                                @endif
-                            </td>
-                            <td>
+                                <form method="POST" action="{{ route("analyses.destroy", $analysis->id) }}">
+                                @csrf @method("DELETE")
                                 <a href="{{ route("analyses.edit", $analysis->id) }}" type="button" class="btn btn-outline-success btn-sm">
                                     @include("components.icon", ["icon" => "edit "])
                                     Edit
                                 </a>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete{{ $analysis->id }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
                                     @include("components.icon", ["icon" => "trash "])
                                     Hapus
                                 </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
-            </form>
                 </table>
             </div>
         </div>
@@ -457,7 +439,7 @@
     </div>
 </div>
 
-@foreach($analyses as $analysis)
+{{-- @foreach($analyses as $analysis)
 <div class="modal fade" id="delete{{ $analysis->id }}" tabindex="-1" analysis="dialog" aria-labelledby="delete{{ $analysis->id }}Label" aria-hidden="true">
     <div class="modal-dialog" analysis="document">
         <div class="modal-content">
@@ -481,9 +463,9 @@
         </div>
     </div>
 </div>
-@endforeach
+@endforeach --}}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
     $('#select_all').on('click',function(){
@@ -506,7 +488,7 @@
         }
         });
     });
-</script>
+</script> --}}
 
 @endsection
 

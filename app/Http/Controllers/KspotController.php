@@ -6,6 +6,7 @@ use App\Models\Kspot;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\KspotStoreRequest;
 
 class KspotController extends Controller
 {
@@ -37,7 +38,7 @@ class KspotController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(KspotStoreRequest $request)
     {
         Kspot::create($request->all());
         DB::statement("ALTER TABLE `kactivities` ADD `$request->name` DOUBLE(8,2)");

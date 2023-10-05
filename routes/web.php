@@ -20,12 +20,14 @@ use App\Http\Controllers\KawalanController;
 use App\Http\Controllers\MollaseController;
 use App\Http\Controllers\PosbrixController;
 use App\Http\Controllers\RestockController;
+use App\Http\Controllers\ScoringController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\VarietyController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\ChemicalController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndicatorController;
 use App\Http\Controllers\KactivityController;
 use App\Http\Controllers\PospantauController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\MasakanTurunController;
 use App\Http\Controllers\SampleResultController;
 use App\Http\Controllers\InputPolAmpasController;
 use App\Http\Controllers\InputRendemenController;
+use App\Http\Controllers\PenggunaanBppController;
 use App\Http\Controllers\RawsugarinputController;
 use App\Http\Controllers\StationResultController;
 use App\Http\Controllers\KelilingResultController;
@@ -192,13 +195,15 @@ Route::resource("scores", ScoreController::class)->middleware(["auth", "operator
 
 // Other
 Route::get("/", HomeController::class)->name("home")->middleware(["auth"]);
+Route::get("dashboard", [DashboardController::class, "index"])->name("dashboard")->middleware(["auth"]);
 Route::post("input_hk", InputHKController::class)->name("input_hk")->middleware(["auth", "operator_qc"]);
 Route::post("input_rendemen", InputRendemenController::class)->name("input_rendemen")->middleware(["auth", "operator_qc"]);
 Route::post("input_pol_ampas", InputPolAmpasController::class)->name("input_pol_ampas")->middleware(["auth", "operator_qc"]);
 Route::post("input_pol_blotong", InputPolBlotongController::class)->name("input_pol_blotong")->middleware(["auth", "operator_qc"]);
 Route::post("input_analisa_umum", InputAnalisaUmumController::class)->name("input_analisa_umum")->middleware(["auth", "operator_qc"]);
 Route::post("input_analisa_ketel", InputAnalisaKetelController::class)->name("input_analisa_ketel")->middleware(["auth", "operator_qc"]);
-Route::post("verifikasi_mandor", [AnalysisUnverifiedController::class, "process"])->name("verifikasi_mandor")->middleware(["auth", "mandor"]);
+Route::get("verifikasi_mandor", [AnalysisUnverifiedController::class, "index"])->name("verifikasi_mandor.index")->middleware(["auth", "mandor"]);
+Route::post("verifikasi_mandor", [AnalysisUnverifiedController::class, "process"])->name("verifikasi_mandor.process")->middleware(["auth", "mandor"]);
 Route::post("restock", RestockController::class)->name("restock")->middleware(["auth", "pic"]);
 Route::get("cetak_ronsel", [CetakRonselController::class, "index"])->name("cetak_ronsel")->middleware(["auth", "operator_non_qc"]);
 Route::post("cetak_ronsel_store", [CetakRonselController::class, "store"])->name("cetak_ronsel_store")->middleware(["auth", "operator_non_qc"]);
@@ -215,6 +220,8 @@ Route::get("material_balance", MaterialBalanceController::class)->name("material
 Route::get("keliling_result", KelilingResultController::class)->name("keliling_result")->middleware(["auth"]);
 Route::get("timbangan_in_proses", TimbanganInProsesController::class)->name("timbangan_in_proses")->middleware(["auth"]);
 Route::get("masakan_turun", MasakanTurunController::class)->name("masakan_turun")->middleware(["auth"]);
+Route::get("penggunaan_bpp", PenggunaanBppController::class)->name("penggunaan_bpp")->middleware(["auth"]);
+Route::get("reward_punishment", ScoringController::class)->name("reward_punishment")->middleware(["auth"]);
 
 // Route::resource("scoring_values", ScoringValueController::class)->middleware(["auth", "operator_qc"]);
 // Route::resource("product50s", Product50Controller::class)->middleware(["auth", "operator_qc"]);

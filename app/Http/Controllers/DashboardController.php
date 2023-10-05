@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use session;
 use App\Models\Ari;
+use App\Models\Report;
 use App\Models\Sample;
 use App\Models\Balance;
 use App\Models\Mollase;
@@ -22,10 +24,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $stations = Station::all();
-        $data = self::getData();
+        $stations   = Station::all();
+        $data       = self::getData();
+        $icumsa_shs = self::icumsa_shs();
+        $r_npp      = self::r_npp();
+        $hk_tetes   = self::hk_tetes();
         return view("dashboard.index", compact(
-            "stations", "data",
+            "stations",
+            "data",
+            "icumsa_shs",
+            "r_npp",
+            "hk_tetes",
         ));
     }
 
@@ -35,14 +44,18 @@ class DashboardController extends Controller
         $timeframe = [
             [session('time_pagi'), session('time_siang')],
             [session('time_siang'), session('time_malam')],
-            [session('time_malam'), session('time_malam2')],
+            [session('time_malam'), session('time_tomorrow')],
             [session('time_start'), session('time_end')],
         ];
 
-        $data["posbrix"]        = self::posbrix($name, $timeframe);
-        $data["core_sample"]    = self::core_sample($name, $timeframe);
-        $data["ari"]            = self::ari($name, $timeframe);
-        $data["npp"]            = self::npp($name, $timeframe);
+        $data["posbrix"]            = self::posbrix($name, $timeframe);
+        $data["core_sample"]        = self::core_sample($name, $timeframe);
+        $data["ari"]                = self::ari($name, $timeframe);
+        $data["npp"]                = self::npp($name, $timeframe);
+        $data["rs_in"]              = Report::rs_in();
+        $data["rs_out"]             = Report::rs_out();
+        $data["tetes"]              = Report::tetes();
+        $data["material_balance"]   = Report::material_balance();
 
         return $data;
     }
@@ -71,8 +84,10 @@ class DashboardController extends Controller
                 ->where("created_at", "<", $timeframe[$i][1])
                 ->select(DB::raw(
                     '
-                    count(id)       Jumlah,
-                    avg(`yield`)    Rendemen
+                    min(rendemen)       Min,
+                    max(rendemen)       Max,
+                    count(id)           Jumlah,
+                    avg(`rendemen`)     Rendemen
                     '
             ))->first();
         }
@@ -85,10 +100,10 @@ class DashboardController extends Controller
                 ->where("created_at", "<", $timeframe[$i][1])
                 ->select(DB::raw(
                     '
-                    min(yield)      Min,
-                    max(yield)      Max,
-                    count(id)       Jumlah,
-                    avg(`yield`)    Rendemen
+                    min(rendemen)       Min,
+                    max(rendemen)       Max,
+                    count(id)           Jumlah,
+                    avg(`rendemen`)     Rendemen
                     '
             ))->first();
         }
@@ -103,13 +118,41 @@ class DashboardController extends Controller
                 ->where("is_verified", 1)
                 ->select(DB::raw(
                     '
-                    min(Rendemen)       Min,
-                    max(Rendemen)       Max,
+                    min(`%R`)           Min,
+                    max(`%R`)           Max,
                     count(id)           Jumlah,
-                    avg(`Rendemen`)     Rendemen
+                    avg(`%R`)           Rendemen
                     '
             ))->first();
         }
         return $data;
     }
+
+    public static function icumsa_shs(){
+        $data = Analysis::where("material_id", 67)
+            ->whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->where("is_verified", 1)
+            ->select(["created_at", "IU"])
+            ->get();
+        return $data;
+    }
+
+    public static function r_npp(){
+        $data = Analysis::where("material_id", 3)
+            ->whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->where("is_verified", 1)
+            ->select(["created_at", "%R as rendemen"])
+            ->get();
+        return $data;
+    }
+
+    public static function hk_tetes(){
+        $data = Analysis::where("material_id", 64)
+            ->whereBetween("created_at", [session("time_start"), session("time_end")])
+            ->where("is_verified", 1)
+            ->select(["created_at", "HK"])
+            ->get();
+        return $data;
+    }
+
 }

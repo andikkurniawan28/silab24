@@ -17,14 +17,14 @@
             <h5 class="m-0 font-weight-bold text-primary">{{ ucfirst('Reward & Punishment') }}</h5>
         </div>
         <div class="card-body">
-            @for($i=1; $i<=5; $i++)
+            {{-- @for($i=1; $i<=5; $i++)
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#create{{ $i }}">
                 @include('components.icon', ['icon' => 'plus '])
                 Meja Tebu {{ $i }}
             </button>
-            @endfor
+            @endfor --}}
             <div class="table-responsive">
-                <br>
+                {{-- <br> --}}
                 <table class="table table-bordered text-dark table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr class="text-center">

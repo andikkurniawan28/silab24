@@ -6,6 +6,7 @@ use App\Models\Tspot;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\TspotStoreRequest;
 
 class TspotController extends Controller
 {
@@ -37,7 +38,7 @@ class TspotController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TspotStoreRequest $request)
     {
         Tspot::create($request->all());
         DB::statement("ALTER TABLE `tactivities` ADD `$request->name` DOUBLE(8,2)");

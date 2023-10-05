@@ -27,7 +27,7 @@ class ScoringController extends Controller
         $rendemen_npp = Analysis::where("material_id", 3)
             ->where("created_at", ">=", session("time_start"))
             ->where("created_at", "<", session("time_end"))
-            ->avg("Rendemen");
+            ->avg("%R");
 
         $mbs = self::prepare(session("date"));
 
@@ -35,8 +35,8 @@ class ScoringController extends Controller
             $scores[$i]["tgl_daftar"] = $mbs[$i]["tgl_daftar"];
             $scores[$i]["antrian"] = $mbs[$i]["no_antrian"];
             $scores[$i]["mbs_name"] = $mbs[$i]["mbs_name"];
-            $scores[$i]["core"] = Posbrix::where("barcode_antrian", $scores[$i]["antrian"])->get()->last()->core_sample->yield ?? 0;
-            $scores[$i]["mini"] = Posbrix::where("barcode_antrian", $scores[$i]["antrian"])->get()->last()->ari->yield ?? 0;
+            $scores[$i]["core"] = Posbrix::where("barcode_antrian", $scores[$i]["antrian"])->get()->last()->core_sample->rendemen ?? 0;
+            $scores[$i]["mini"] = Posbrix::where("barcode_antrian", $scores[$i]["antrian"])->get()->last()->ari->rendemen ?? 0;
             $scores[$i]["ari"] = number_format(0.05 * $scores[$i]["core"] + 0.95 * $scores[$i]["mini"], 2);
             $scores[$i]["delta_npp"] = $scores[$i]["ari"] - $rendemen_npp;
             $scores[$i]["rp"] = number_format(self::tentukanRewardOrPunishment($scores[$i]["ari"], $rendemen_npp),2);

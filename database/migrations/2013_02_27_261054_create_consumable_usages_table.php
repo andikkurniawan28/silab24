@@ -18,6 +18,13 @@ class CreateConsumableUsagesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->float("Form_A")->nullable();
             $table->float("Form_B")->nullable();
+            $table->float("Kieselguhr")->nullable();
+            $table->float("Kertas_Merang")->nullable();
+            $table->float("Kertas_Whatmann")->nullable();
+            $table->float("Kertas_Thermal")->nullable();
+            $table->float("Test_Kit_H-1")->nullable();
+            $table->float("Test_Kit_H-2")->nullable();
+            $table->float("Test_Kit_PO4-1")->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

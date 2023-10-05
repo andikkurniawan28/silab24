@@ -9,13 +9,13 @@
                     <div class="h4 mb-0 font-weight-bold text-white">
                         {{ number_format($rendemen, 2) }}<sub>(%R)</sub>
                     </div>
-                    <div class="h5 mb-0 font-weight-bold text-white">
+                    <div class="h4 mb-0 font-weight-bold text-white">
                         {{ $jumlah }} Sampel
                     </div>
-                    <div class="h5 mb-0 font-weight-bold text-white">
+                    <div class="h4 mb-0 font-weight-bold text-white">
                         Min : {{ $min }}
                     </div>
-                    <div class="h5 mb-0 font-weight-bold text-white">
+                    <div class="h4 mb-0 font-weight-bold text-white">
                         Max : {{ $max }}
                     </div>
                 </div>

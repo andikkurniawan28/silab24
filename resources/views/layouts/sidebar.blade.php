@@ -16,11 +16,28 @@
         <span>Home</span></a>
     </li>
 
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="/">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route("dashboard") }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
-    </li> --}}
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#monitoring" aria-expanded="true" aria-controls="collapseUtilities2">
+            <i class="fas fa-fw fa-eye"></i>
+            <span>Monitoring</span>
+        </a>
+        <div id="monitoring" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menu :</h6>
+                <a class="collapse-item" href="{{ route("keliling_result") }}">Keliling Proses</a>
+                <a class="collapse-item" href="{{ route("material_balance") }}">Material Balance</a>
+                <a class="collapse-item" href="{{ route("timbangan_in_proses") }}">Timbangan In Proses</a>
+                <a class="collapse-item" href="{{ route("masakan_turun") }}">Masakan Turun</a>
+                <a class="collapse-item" href="{{ route("penggunaan_bpp") }}">Penggunaan BPP</a>
+            </div>
+        </div>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2" aria-expanded="true" aria-controls="collapseUtilities2">
@@ -33,10 +50,6 @@
                 @foreach($stations as $station)
                     <a class="collapse-item" href="{{ route('station_result', $station->id) }}">{{ $station->name }}</a>
                 @endforeach
-                <a class="collapse-item" href="{{ route("keliling_result") }}">Keliling Proses</a>
-                <a class="collapse-item" href="{{ route("material_balance") }}">Material Balance</a>
-                <a class="collapse-item" href="{{ route("timbangan_in_proses") }}">Timbangan In Proses</a>
-                <a class="collapse-item" href="{{ route("masakan_turun") }}">Masakan Turun</a>
             </div>
         </div>
     </li>
@@ -74,6 +87,7 @@
                 @if(Auth()->user()->role_id < 9)
 
                 <a class="collapse-item" href="{{ route('analyses.index') }}">Analisa</a>
+                <a class="collapse-item" href="{{ route('verifikasi_mandor.index') }}">Verifikasi Mandor</a>
                 <a class="collapse-item" href="{{ route('balances.index') }}">Balance Nira Mentah</a>
                 <a class="collapse-item" href="{{ route('kactivities.index') }}">Keliling Proses</a>
                 <a class="collapse-item" href="{{ route('tactivities.index') }}">Taksasi</a>
@@ -109,6 +123,7 @@
                 <a class="collapse-item" href="{{ route('core_samples.index') }}">ARI Core Sample</a>
                 <a class="collapse-item" href="{{ route('aris.index') }}">ARI Gilingan Mini</a>
                 <a class="collapse-item" href="{{ route('scores.index') }}">Penilaian MBS</a>
+                <a class="collapse-item" href="{{ route('reward_punishment') }}">Reward Punishment</a>
             </div>
         </div>
     </li>

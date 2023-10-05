@@ -6,6 +6,7 @@ use App\Models\Dirt;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\DirtStoreRequest;
 
 class DirtController extends Controller
 {
@@ -37,12 +38,8 @@ class DirtController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DirtStoreRequest $request)
     {
-        $request->validate([
-            "name" => "required|unique:dirts",
-            "value" => "required",
-        ]);
         Dirt::create($request->all());
         DB::statement("ALTER TABLE `scores` ADD `$request->name` DOUBLE(8,2)");
         return redirect()->back()->with("success", "Kotoran berhasil disimpan");

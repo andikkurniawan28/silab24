@@ -7,6 +7,7 @@ use App\Models\Consumable;
 use Illuminate\Http\Request;
 use App\Models\ConsumableUsage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ConsumableStoreRequest;
 
 class ConsumableController extends Controller
 {
@@ -41,7 +42,7 @@ class ConsumableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ConsumableStoreRequest $request)
     {
         Consumable::create($request->all());
         DB::statement("ALTER TABLE `consumable_usages` ADD `$request->name` DOUBLE(8,2)");

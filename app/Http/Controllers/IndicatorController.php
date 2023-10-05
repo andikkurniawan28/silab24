@@ -6,6 +6,7 @@ use App\Models\Station;
 use App\Models\Indicator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\IndicatorStoreRequest;
 
 class IndicatorController extends Controller
 {
@@ -37,7 +38,7 @@ class IndicatorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(IndicatorStoreRequest $request)
     {
         Indicator::create($request->all());
         DB::statement("ALTER TABLE `analyses` ADD `$request->name` DOUBLE(8,2)");

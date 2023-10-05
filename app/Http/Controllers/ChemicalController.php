@@ -6,6 +6,7 @@ use App\Models\Station;
 use App\Models\Chemical;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ChemicalStoreRequest;
 
 class ChemicalController extends Controller
 {
@@ -37,7 +38,7 @@ class ChemicalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ChemicalStoreRequest $request)
     {
         Chemical::create($request->all());
         DB::statement("ALTER TABLE `chemicalcheckings` ADD `$request->name` DOUBLE(8,2)");

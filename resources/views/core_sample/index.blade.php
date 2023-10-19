@@ -12,12 +12,16 @@
         <div class="card-body">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#create">
-                    @include("components.icon", ["icon" => "plus "])
-                    Tambah
+                    @include("components.icon", ["icon" => "thermometer "])
+                    Analisa
                 </button>
                 <a href="{{ route("core_samples.create2") }}" class="btn btn-outline-secondary btn-sm">
-                    @include("components.icon", ["icon" => "barcode "])
+                    @include("components.icon", ["icon" => "id-card "])
                     Tap Kartu
+                </a>
+                <a href="{{ route("gelas_core_sample.index") }}" class="btn btn-outline-success btn-sm">
+                    @include("components.icon", ["icon" => "coffee "])
+                    Gelas
                 </a>
             </div>
             <div class="table-responsive">
@@ -27,6 +31,7 @@
                         <tr>
                             <th>ID</td>
                             <th>Timestamp</td>
+                            <th>Gelas</td>
                             <th>SPTA</td>
                             <th>Antrian</td>
                             <th>Register</td>
@@ -43,6 +48,7 @@
                         <tr>
                             <td>{{ $core_sample->id }}</td>
                             <td>{{ $core_sample->created_at }}</td>
+                            <td>{{ $core_sample->gelas_core_sample->identificator ?? "-" }}</td>
                             <td>{{ $core_sample->posbrix->spta }}</td>
                             <td>{{ $core_sample->posbrix->barcode_antrian }}</td>
                             <td>{{ $core_sample->posbrix->register }}</td>
@@ -89,8 +95,8 @@
                 @method("POST")
 
                 @include("components.input",[
-                    "label" => "ID",
-                    "name" => "id",
+                    "label" => "Nomor Gelas",
+                    "name" => "identificator",
                     "type" => "number",
                     "value" => "",
                     "modifier" => "required",

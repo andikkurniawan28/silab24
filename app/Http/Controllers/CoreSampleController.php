@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CoreSample;
 use App\Models\Factor;
 use App\Models\Station;
+use App\Models\CoreSample;
 use Illuminate\Http\Request;
+use App\Models\GelasCoreSample;
 
 class CoreSampleController extends Controller
 {
@@ -39,9 +40,15 @@ class CoreSampleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->request->add(["rendemen" => self::findYield($request)]);
-        CoreSample::whereId($request->id)->update($request->except(["_token", "_method"]));
-        return redirect()->back()->with("success", "ARI Core Sample berhasil disimpan");
+        $core_sample_id = GelasCoreSample::where("identificator", $request->identificator)->get()->last()->core_sample_id ?? 0;
+        if($core_sample_id != 0){
+            $request->request->add(["rendemen" => self::findYield($request)]);
+            CoreSample::whereId($core_sample_id)->update($request->except(["_token", "_method", "identificator"]));
+            GelasCoreSample::where("identificator", $request->identificator)->delete();
+            return redirect()->back()->with("success", "ARI Core Sample berhasil disimpan");
+        } else {
+            return redirect()->back()->with("fail", "Gagal simpan, nomor gelas tidak valid!");
+        }
     }
 
     /**

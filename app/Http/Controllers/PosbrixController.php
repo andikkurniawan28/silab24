@@ -46,7 +46,7 @@ class PosbrixController extends Controller
     public function store(PosbrixStoreRequest $request)
     {
         Posbrix::create($request->all());
-        self::createCore($request);
+        // self::createCore($request);
         return redirect()->back()->with("success", "Posbrix berhasil disimpan");
     }
 
@@ -58,7 +58,7 @@ class PosbrixController extends Controller
      */
     public function show(Posbrix $posbrix)
     {
-        //
+        return view("posbrix.show");
     }
 
     /**

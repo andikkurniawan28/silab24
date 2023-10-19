@@ -3,6 +3,8 @@
 @section("content")
 <div class="container-fluid">
 
+    <x-breadcrumb1 route="{{ route('aris.index') }}" routeName="ARI Gilingan Mini" title="Tap Kartu ARI Gilingan Mini"></x-breadcrumb1>
+
     @include("components.alert_block")
 
     <div class="card shadow mb-4">
@@ -23,7 +25,35 @@
             </form>
         </div>
         <div class="card-footer">
-
+            <div class="table-responsive">
+                <table class="table table-bordered table-dark table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Timestamp</th>
+                            <th>Nopol</th>
+                            <th>Antrian</th>
+                            <th>Tidak Sukses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ari as $ari)
+                        <tr>
+                            <td>{{ $ari->id }}</td>
+                            <td>{{ $ari->created_at }}</td>
+                            <td>{{ $ari->posbrix->nopol }}</td>
+                            <td>{{ $ari->posbrix->barcode_antrian }}</td>
+                            <td>
+                                <form action="{{ route("aris.destroy", $ari->id) }}" method="POST">
+                                @csrf @method("DELETE")
+                                <button type="submit" class="btn btn-sm btn-outline-warning">Tidak Sukses</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

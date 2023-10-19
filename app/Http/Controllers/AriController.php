@@ -82,6 +82,18 @@ class AriController extends Controller
         return redirect()->route("aris.index")->with("success", "ARI Gilingan Mini berhasil disimpan");
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Ari  $ari
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        Ari::whereId($id)->delete();
+        return redirect()->back()->with("success", "ARI Gilingan Mini berhasil dihapus");
+    }
+
     public function correctPol($request){
         $faktor = Factor::where('name', 'ARI')->get()->last()->value;
         return $request->ppol + ($faktor * $request->pbrix);

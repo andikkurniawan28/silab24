@@ -12,7 +12,8 @@ class CoreSampleSamplingController extends Controller
 {
     public function index(){
         $stations = Station::all();
-        return view("core_sample.create2", compact("stations"));
+        $core_sample = CoreSample::where("pbrix", NULL)->where("ppol", NULL)->where("rendemen", NULL)->get();
+        return view("core_sample.create2", compact("stations", "core_sample"));
     }
 
     public function process(Request $request){
@@ -42,7 +43,8 @@ class CoreSampleSamplingController extends Controller
             "category"          => "CS",    // Core Sample
             "barcode_antrian"   => $data["barcode_antrian"],
             "register"          => $data["register"],
-            "nopol"             => $data["nama_petani"],
+            "nopol"             => $data["nopol"],
+            "nama_petani"       => $data["nama_petani"],
         ]);
         return Posbrix::where("spta", $data["spta"])->get()->last()->id;
     }

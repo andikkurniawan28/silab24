@@ -35,4 +35,12 @@ class Posbrix extends Model
         return $this->belongsTo(Wilayah::class);
     }
 
+    public function core_sample(){
+        return $this->hasOne(CoreSample::class);
+    }
+
+    public function ari(){
+        return $this->hasOne(Ari::class);
+    }
+
 }

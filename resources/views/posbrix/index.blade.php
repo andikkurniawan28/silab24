@@ -11,9 +11,15 @@
         </div>
         <div class="card-body">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="{{ route("posbrixes.create2", "CS") }}" type="button" class="btn btn-outline-secondary btn-sm">EK Core Sample</a>
-                <a href="{{ route("posbrixes.create2", "EK") }}" type="button" class="btn btn-outline-secondary btn-sm">EK Magersari</a>
-                <a href="{{ route("posbrixes.create2", "EB|GD") }}" type="button" class="btn btn-outline-secondary btn-sm">EB/GD</a>
+                {{-- <a href="{{ route("posbrixes.create2", "CS") }}" type="button" class="btn btn-outline-secondary btn-sm">EK Core Sample</a> --}}
+                <a href="{{ route("posbrixes.create2", "EK") }}" type="button" class="btn btn-outline-secondary btn-sm">
+                    @include("components.icon", ["icon" => "plus "])
+                    EK
+                </a>
+                <a href="{{ route("posbrixes.create2", "EB|GD") }}" type="button" class="btn btn-outline-secondary btn-sm">
+                    @include("components.icon", ["icon" => "plus "])
+                    EB/GD
+                </a>
             </div>
             <div class="table-responsive">
                 <br>
@@ -28,6 +34,8 @@
                             <th><a href="{{ route("varieties.index") }}" target="_blank">Varietas</a></td>
                             <th><a href="{{ route("kawalans.index") }}" target="_blank">Kawalan</a></td>
                             <th>Status</td>
+                            <th>Core</td>
+                            <th>Gil_Mini</td>
                             <th>User</td>
                             <th>Action</td>
                         </tr>
@@ -62,6 +70,8 @@
                                 @else{{ "-" }}
                                 @endif
                             </td>
+                            <td>{{ $posbrix->core_sample->rendemen ?? "-" }}</td>
+                            <td>{{ $posbrix->ari->rendemen ?? "-" }}</td>
                             <td>{{ $posbrix->user->name }}</td>
                             <td>
                                 <form action="{{ route("posbrixes.destroy", $posbrix->id) }}" method="POST">

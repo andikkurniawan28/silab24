@@ -12,12 +12,16 @@
         <div class="card-body">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#create">
-                    @include("components.icon", ["icon" => "plus "])
-                    Tambah
+                    @include("components.icon", ["icon" => "thermometer "])
+                    Analisa
                 </button>
                 <a href="{{ route("aris.create2") }}" class="btn btn-outline-secondary btn-sm">
-                    @include("components.icon", ["icon" => "barcode "])
+                    @include("components.icon", ["icon" => "id-card "])
                     Tap Kartu
+                </a>
+                <a href="{{ route("gelas_ari.index") }}" class="btn btn-outline-success btn-sm">
+                    @include("components.icon", ["icon" => "coffee "])
+                    Gelas
                 </a>
             </div>
             <div class="table-responsive">
@@ -27,6 +31,7 @@
                         <tr>
                             <th>ID</td>
                             <th>Timestamp</td>
+                            <th>Gelas</td>
                             <th>SPTA</td>
                             <th>Antrian</td>
                             <th>Register</td>
@@ -42,6 +47,7 @@
                         <tr>
                             <td>{{ $ari->id }}</td>
                             <td>{{ $ari->created_at }}</td>
+                            <td>{{ $ari->gelas_ari->identificator ?? "-" }}</td>
                             <td>{{ $ari->posbrix->spta }}</td>
                             <td>{{ $ari->posbrix->barcode_antrian }}</td>
                             <td>{{ $ari->posbrix->register }}</td>
@@ -87,8 +93,8 @@
                 @method("POST")
 
                 @include("components.input",[
-                    "label" => "ID",
-                    "name" => "id",
+                    "label" => "Nomor Gelas",
+                    "name" => "identificator",
                     "type" => "number",
                     "value" => "",
                     "modifier" => "required",

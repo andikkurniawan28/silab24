@@ -18,4 +18,8 @@ class CoreSample extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function gelas_core_sample(){
+        return $this->hasOne(GelasCoreSample::class);
+    }
 }

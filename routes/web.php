@@ -26,6 +26,7 @@ use App\Http\Controllers\VarietyController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\ChemicalController;
+use App\Http\Controllers\GelasAriController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IndicatorController;
@@ -49,6 +50,7 @@ use App\Http\Controllers\StationResultController;
 use App\Http\Controllers\KelilingResultController;
 use App\Http\Controllers\RawsugaroutputController;
 use App\Http\Controllers\ConsumableUsageController;
+use App\Http\Controllers\GelasCoreSampleController;
 use App\Http\Controllers\InputPolBlotongController;
 use App\Http\Controllers\MaterialBalanceController;
 use App\Http\Controllers\ChemicalcheckingController;
@@ -222,10 +224,12 @@ Route::get("timbangan_in_proses", TimbanganInProsesController::class)->name("tim
 Route::get("masakan_turun", MasakanTurunController::class)->name("masakan_turun")->middleware(["auth"]);
 Route::get("penggunaan_bpp", PenggunaanBppController::class)->name("penggunaan_bpp")->middleware(["auth"]);
 Route::get("reward_punishment", ScoringController::class)->name("reward_punishment")->middleware(["auth"]);
+Route::get("gelas_core_sample", [GelasCoreSampleController::class, "index"])->name("gelas_core_sample.index")->middleware(["auth", "operator_qc"]);
+Route::post("gelas_core_sample", [GelasCoreSampleController::class, "process"])->name("gelas_core_sample.process")->middleware(["auth", "operator_qc"]);
+Route::get("gelas_ari", [GelasAriController::class, "index"])->name("gelas_ari.index")->middleware(["auth", "operator_qc"]);
+Route::post("gelas_ari", [GelasAriController::class, "process"])->name("gelas_ari.process")->middleware(["auth", "operator_qc"]);
 
-// Route::resource("scoring_values", ScoringValueController::class)->middleware(["auth", "operator_qc"]);
-// Route::resource("product50s", Product50Controller::class)->middleware(["auth", "operator_qc"]);
-
+// Report
 Route::get("report", [ ReportController::class, "index" ])->name("report")->middleware(["auth", "mandor"]);
 Route::get("cetak_laporan_mandor", [ CetakLaporanMandorController::class, "index" ])->name("cetak_laporan_mandor")->middleware(["auth", "mandor"]);
 Route::post("cetak_laporan_mandor_process", [ CetakLaporanMandorController::class, "process" ])->name("cetak_laporan_mandor_process")->middleware(["auth", "mandor"]);

@@ -19,4 +19,8 @@ class Ari extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function gelas_ari(){
+        return $this->hasOne(GelasAri::class);
+    }
+
 }
